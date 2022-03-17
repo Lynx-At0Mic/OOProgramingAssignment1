@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CMP1903M_Assessment_1_Base_Code
 {
-    public class Analyse
+    public static class Analyse
     {
         //Handles the analysis of text
 
@@ -15,7 +15,7 @@ namespace CMP1903M_Assessment_1_Base_Code
         //Arguments: string
         //Returns: list of integers
         //Calculates and returns an analysis of the text
-        public Dictionary<string, int> analyseText(string input)
+        public static Dictionary<string, int> AnalyseText(string input)
         {
             //List of integers to hold the first five measurements:
             //1. Number of sentences
@@ -24,7 +24,6 @@ namespace CMP1903M_Assessment_1_Base_Code
             //4. Number of upper case letters
             //5. Number of lower case letters
             //Initialise all the values in the list to '0'
-            var values = new Dictionary<string, int>();
             var tools = new Dictionary<string, Func<string, int>>()
             {
                 {"sentences", s => Regex.Match(s, "/(\\s|^)+[^.!?\\n]*[.!?\\n]/gm").Length},
@@ -34,26 +33,21 @@ namespace CMP1903M_Assessment_1_Base_Code
                 {"lower", s => Regex.Match(s, "/[a-z]/gm").Length}
             };
 
-            foreach (var toolsKey in tools.Keys)
-            {
-                values.Add(toolsKey, new AnalysisTool(tools[toolsKey]).Count(input));
-            }
-
-            return values;
+            return tools.Keys.ToDictionary(toolsKey => toolsKey, toolsKey => new AnalysisTool(tools[toolsKey]).Count(input));
         }
     }
     
     public class AnalysisTool
     {
-        private Func<string, int> tool;
+        private readonly Func<string, int> _tool;
         public AnalysisTool(Func<string, int> tool)
         {
-            this.tool = tool;
+            this._tool = tool;
         }
 
         public int Count(string text)
         {
-            return this.tool(text);
+            return this._tool(text);
         }
     }
 }
