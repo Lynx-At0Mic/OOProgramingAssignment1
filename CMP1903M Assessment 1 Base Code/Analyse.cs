@@ -26,11 +26,11 @@ namespace CMP1903M_Assessment_1_Base_Code
             //Initialise all the values in the list to '0'
             var tools = new Dictionary<string, Func<string, int>>()
             {
-                {"sentences", s => Regex.Match(s, "/(\\s|^)+[^.!?\\n]*[.!?\\n]/gm").Length},
-                {"vowels", s => Regex.Match(s, "/[aeiou]/gm").Length},
-                {"consonants", s => Regex.Match(s, "/[^aeiou]/gm").Length},
-                {"upper", s => Regex.Match(s, "/[A-Z]/gm").Length},
-                {"lower", s => Regex.Match(s, "/[a-z]/gm").Length}
+                {"sentences", s => Regex.Matches(s, @"(\s|^)+[^.!?]*([.!?]|\S)", RegexOptions.Multiline).Count()},
+                {"vowels", s => Regex.Matches(s, @"[aeiouAEIOU]", RegexOptions.Multiline).Count()},
+                {"consonants", s => Regex.Matches(s, @"[^aeiouAEIOU\W\s\d]", RegexOptions.Multiline).Count()},
+                {"upper", s => Regex.Matches(s, @"[A-Z]", RegexOptions.Multiline).Count()},
+                {"lower", s => Regex.Matches(s, @"[a-z]", RegexOptions.Multiline).Count()}
             };
 
             return tools.Keys.ToDictionary(toolsKey => toolsKey, toolsKey => new AnalysisTool(tools[toolsKey]).Count(input));
@@ -47,6 +47,7 @@ namespace CMP1903M_Assessment_1_Base_Code
 
         public int Count(string text)
         {
+            // Console.WriteLine(this._tool(text));
             return this._tool(text);
         }
     }
