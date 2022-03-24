@@ -18,12 +18,18 @@ namespace CMP1903M_Assessment_1_Base_Code
         /// <returns>string: Text input</returns>
         public string manualTextInput()
         {
-            Console.WriteLine("Enter text:");
+            Console.WriteLine("Enter text, use '*' to end text entry");
+            string input = String.Empty;
             while (true)
             {
                 try
                 {
-                    return Console.ReadLine() ?? string.Empty;
+                    while (!input.EndsWith('*')) // Loop until user ends entry with '*'
+                    {
+                        input += Console.ReadLine() ?? string.Empty;
+                    }
+
+                    return input.Trim('*'); // Remove '*' and return input
                 }
                 catch (IOException e)
                 {
@@ -53,7 +59,7 @@ namespace CMP1903M_Assessment_1_Base_Code
                     // Create StreamReader to read file
                     using (var sr = new StreamReader(fileName))
                     {
-                        return sr.ReadToEnd();
+                        return sr.ReadToEnd().Trim('*');
                     }
                 }
                 catch (IOException e)
