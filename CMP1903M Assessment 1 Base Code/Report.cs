@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CMP1903M_Assessment_1_Base_Code
 {
     /// <summary>
-    /// Used to generate reports and format them
+    /// Used to generate reports and format them, example of abstraction
     /// </summary>
     public class Report
     {
@@ -66,7 +66,7 @@ namespace CMP1903M_Assessment_1_Base_Code
 }
 
 /// <summary>
-/// Utility class used to generate table rows
+/// Utility class used to generate table rows, example of abstraction
 /// </summary>
 public class DataTableRow
 {
