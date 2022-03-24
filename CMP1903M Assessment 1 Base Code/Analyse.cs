@@ -13,8 +13,10 @@ namespace CMP1903M_Assessment_1_Base_Code
     /// </summary>
     public class Analyse
     {
-        // Text to analyse, runs AnalyseText method when set
         private string _analysisText;
+        /// <summary>
+        /// Text to analyse, runs AnalyseText method when set
+        /// </summary>
         public string AnalisisText
         {
             get { return _analysisText; }
@@ -24,8 +26,14 @@ namespace CMP1903M_Assessment_1_Base_Code
                 AnalyseText(_analysisText);
             }
         }
-
+        
+        /// <summary>
+        /// Keys as text elements, values as count
+        /// </summary>
         public Dictionary<string, int> Elements { get; private set; }
+        /// <summary>
+        /// Keys as characters, values as count
+        /// </summary>
         public Dictionary<string, int> Characters { get; private set; }
 
         public Analyse()
@@ -70,7 +78,12 @@ namespace CMP1903M_Assessment_1_Base_Code
             // instances of AnalysisTool as values
             return tools.Keys.ToDictionary(toolsKey => toolsKey, toolsKey => new AnalysisTool(tools[toolsKey]).Count(text));
         }
-
+        
+        /// <summary>
+        /// Counts number of characters in text
+        /// </summary>
+        /// <param name="text">Text to count characters in</param>
+        /// <returns>dict: Keys as characters and values corresponding to count</returns>
         protected Dictionary<string, int> CountChars(string text)
         {
             var dict = new Dictionary<string, int>();
