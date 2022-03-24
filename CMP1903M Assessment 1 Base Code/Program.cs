@@ -50,13 +50,9 @@ namespace CMP1903M_Assessment_1_Base_Code
 
                 Console.WriteLine("\n");
                 
-                // Report
-                foreach (var key in analysis.Elements.Keys)
-                {
-                    Console.WriteLine("{0}:   \t{1}", key, analysis.Elements[key]);
-                }
-
-                Console.WriteLine("\n");
+                // Create report object and output to console
+                var output = new Report(in analysis);
+                output.outputConsole();
 
             }
         }
