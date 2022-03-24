@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 namespace CMP1903M_Assessment_1_Base_Code
 {
     /// <summary>
-    /// Analyses text
+    /// Analyses text, example of encapsulation
     /// </summary>
     public class Analyse
     {
-        private string _analysisText;
+        private string _analysisText = string.Empty;
         /// <summary>
         /// Text to analyse, runs AnalyseText method when set
         /// </summary>
-        public string AnalisisText
+        public string AnalysisText
         {
             get { return _analysisText; }
             set
@@ -35,13 +35,9 @@ namespace CMP1903M_Assessment_1_Base_Code
         /// Keys as characters, values as count
         /// </summary>
         public Dictionary<string, int> Characters { get; private set; }
-
-        public Analyse()
-        {
-            
-        }
+        
         /// <summary>
-        /// Runs analysis methods
+        /// Runs analysis methods, replaces analyseText() from base code
         /// </summary>
         /// <param name="input">Text to analyse</param>
         protected void AnalyseText(string input)
@@ -76,7 +72,7 @@ namespace CMP1903M_Assessment_1_Base_Code
             
             // Return a dictionary. Use Linq to create a dictionary with elements as keys and returned values from
             // instances of AnalysisTool as values
-            return tools.Keys.ToDictionary(toolsKey => toolsKey, toolsKey => new AnalysisTool(tools[toolsKey]).Count(text));
+            return tools.Keys.ToDictionary(toolsKey => toolsKey, toolsKey => new AnalysisTool(tools[toolsKey]).RunTool(text));
         }
         
         /// <summary>
@@ -126,7 +122,7 @@ namespace CMP1903M_Assessment_1_Base_Code
         /// </summary>
         /// <param name="text">Text to analyse</param>
         /// <returns>int: Number of occurrences in text</returns>
-        public int Count(string text)
+        public int RunTool(string text)
         {
             return _tool(text);
         }

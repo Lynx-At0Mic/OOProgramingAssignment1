@@ -45,7 +45,7 @@ namespace CMP1903M_Assessment_1_Base_Code
                 // Initialise analyse object with analysisText
                 var analysis = new Analyse
                 {
-                    AnalisisText = analysisText
+                    AnalysisText = analysisText
                 };
 
                 Console.WriteLine("\n");
