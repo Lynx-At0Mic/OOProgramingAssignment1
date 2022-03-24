@@ -8,55 +8,56 @@ using System.Threading.Tasks;
 
 namespace CMP1903M_Assessment_1_Base_Code
 {
+    /// <summary>
+    /// Main program class
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// Entry method
+        /// </summary>
         static void Main()
         {
-            //Local list of integers to hold the first five measurements of the text
-            // List<int> parameters = new List<int>();
-
-            //Create 'Input' object
-            //Get either manually entered text, or text from a file
+            // Initialize IO reader
             Input ioReader = new Input();
-            string testString = "";
+            string analysisText;
             
+            // Loop until exit
             while (true)
             {
                 Console.WriteLine("Options:\n1: Manual input\n2: File input\n3: Exit");
-                string usrInput = Console.ReadLine();
-                if (usrInput == "1")
+                string usrInput = Console.ReadLine() ?? string.Empty;
+                switch (usrInput)
                 {
-                    Console.WriteLine("Enter text");
-                    testString = ioReader.manualTextInput();
-                }
-                else if (usrInput == "2")
-                {
-                    Console.WriteLine("Enter absolute file path");
-                    testString = ioReader.fileTextInput(Console.ReadLine());
-                }
-                else if (usrInput == "3") break;
-                else
-                {
-                    Console.WriteLine("Invalid input!");
-                    continue;
+                    case "1": // CLI text entry
+                        analysisText = ioReader.manualTextInput();
+                        break;
+                    case "2": // Read file
+                        analysisText = ioReader.fileTextInput();
+                        break;
+                    case "3": // Exit
+                        return;
+                    default:
+                        Console.WriteLine("Invalid input!");
+                        continue;
                 }
                 
-                //Create an 'Analyse' object
-                //Pass the text input to the 'analyseText' method
-                //Receive a list of integers back
-                var dict = Analyse.AnalyseText(testString);
-
-                //Report the results of the analysis
-                Console.WriteLine("\n");
-                foreach (var key in dict.Keys)
+                // Initialise analyse object with analysisText
+                var analysis = new Analyse
                 {
-                    Console.WriteLine("{0}:   \t{1}", key, dict[key]);
-                }
+                    AnalisisText = analysisText
+                };
 
                 Console.WriteLine("\n");
                 
-                //TO ADD: Get the frequency of individual letters?
-                
+                // Report
+                foreach (var key in analysis.Elements.Keys)
+                {
+                    Console.WriteLine("{0}:   \t{1}", key, analysis.Elements[key]);
+                }
+
+                Console.WriteLine("\n");
+
             }
         }
     }
