@@ -67,7 +67,7 @@ namespace CMP1903M_Assessment_1_Base_Code
             // Create dictionary with anonymous functions that count elements using Regex
             var tools = new Dictionary<string, Func<string, int>>()
             {
-                {"sentences", s => Regex.Matches(s, @"(\s|^)+[^.!?]*([.!?]|\S)", RegexOptions.Multiline).Count()},
+                {"sentences", s => Regex.Matches(s, @"(\s|^)+[^.!?\*]*([.!?\*]|\S)", RegexOptions.Multiline).Count()},
                 {"vowels", s => Regex.Matches(s, @"[aeiouAEIOU]", RegexOptions.Multiline).Count()},
                 {"consonants", s => Regex.Matches(s, @"[^aeiouAEIOU\W\s\d]", RegexOptions.Multiline).Count()},
                 {"upper", s => Regex.Matches(s, @"[A-Z]", RegexOptions.Multiline).Count()},
@@ -87,7 +87,7 @@ namespace CMP1903M_Assessment_1_Base_Code
         protected Dictionary<string, int> CountChars(string text)
         {
             var dict = new Dictionary<string, int>();
-            foreach (Match match in Regex.Matches(text.ToLower(), @"[\w\S]"))
+            foreach (Match match in Regex.Matches(text.ToLower(), @"[a-z0-9]"))
             {
                 if (!dict.ContainsKey(match.ToString()))
                 {
@@ -99,7 +99,9 @@ namespace CMP1903M_Assessment_1_Base_Code
                 }
             }
 
-            return dict;
+            var sortedDict = 
+                from i in dict orderby i.Value descending select i;
+            return sortedDict.ToDictionary(pair => pair.Key, pair => pair.Value);
         }
     }
     
