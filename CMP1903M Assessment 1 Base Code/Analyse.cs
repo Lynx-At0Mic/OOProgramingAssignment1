@@ -83,7 +83,7 @@ namespace CMP1903M_Assessment_1_Base_Code
         protected Dictionary<string, int> CountChars(string text)
         {
             var dict = new Dictionary<string, int>();
-            foreach (Match match in Regex.Matches(text.ToLower(), @"[a-z0-9]"))
+            foreach (Match match in Regex.Matches(text.ToLower(), @"[a-z]"))
             {
                 if (!dict.ContainsKey(match.ToString()))
                 {
