@@ -37,6 +37,15 @@ public class Table
     private readonly string _formatString;
     private readonly Dictionary<string, int> _data;
     private readonly int _padding;
+    
+    /// <summary>
+    /// Creates table object
+    /// </summary>
+    /// <param name="columnFormat">string: Specifies format of column, uses {0} to insert data into string
+    /// For example, "| {0} " with product columns that look like "| key | value "
+    /// </param>
+    /// <param name="data">Dictionary of data to create table with</param>
+    /// <param name="padding">Minimum padding to add to end on columns</param>
     public Table(string columnFormat, Dictionary<string, int> data, int padding)
     {
         _formatString = columnFormat;
