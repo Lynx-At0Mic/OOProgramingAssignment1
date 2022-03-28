@@ -12,6 +12,33 @@ namespace CMP1903M_Assessment_1_Base_Code
     /// </summary>
     public class Input
     {
+
+        public string GetInput()
+        {
+            while (true)
+            {
+                Console.WriteLine("Options:\n1: Manual input\n2: File input\n3: Exit");
+                string usrInput = Console.ReadLine() ?? string.Empty;
+                string analysisText;
+                switch (usrInput)
+                {
+                    case "1": // CLI text entry
+                        analysisText = manualTextInput();
+                        break;
+                    case "2": // Read file
+                        analysisText = fileTextInput();
+                        break;
+                    case "3": // Exit
+                        throw new UserTerminationException("User exited");
+                    default:
+                        Console.WriteLine("Invalid input!");
+                        continue;
+                }
+
+                return analysisText;
+            }
+        }
+        
         /// <summary>
         /// Used to accept text input through the command line
         /// </summary>
@@ -34,7 +61,6 @@ namespace CMP1903M_Assessment_1_Base_Code
                 catch (IOException e)
                 {
                     Console.WriteLine("An IO error occured, assuming user entered nothing");
-                    return string.Empty;
                 }
                 catch (ArgumentOutOfRangeException e)
                 {
@@ -66,4 +92,12 @@ namespace CMP1903M_Assessment_1_Base_Code
             }
         }
     }
+}
+
+public class UserTerminationException : Exception
+{
+    public UserTerminationException() { }
+
+    public UserTerminationException(string name)
+    : base("User exited") { }
 }

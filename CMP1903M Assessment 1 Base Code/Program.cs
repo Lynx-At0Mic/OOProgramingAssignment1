@@ -21,27 +21,20 @@ namespace CMP1903M_Assessment_1_Base_Code
             // Initialize IO reader
             Input ioReader = new Input();
             string analysisText;
-            
+
             // Loop until exit
             while (true)
             {
-                Console.WriteLine("Options:\n1: Manual input\n2: File input\n3: Exit");
-                string usrInput = Console.ReadLine() ?? string.Empty;
-                switch (usrInput)
+                // Get input from user
+                try
                 {
-                    case "1": // CLI text entry
-                        analysisText = ioReader.manualTextInput();
-                        break;
-                    case "2": // Read file
-                        analysisText = ioReader.fileTextInput();
-                        break;
-                    case "3": // Exit
-                        return;
-                    default:
-                        Console.WriteLine("Invalid input!");
-                        continue;
+                    analysisText = ioReader.GetInput();
                 }
-                
+                catch (UserTerminationException) // Catch exception when user exits
+                {
+                    return;
+                }
+
                 // Initialise analyse object with analysisText
                 var analysis = new Analyse
                 {
