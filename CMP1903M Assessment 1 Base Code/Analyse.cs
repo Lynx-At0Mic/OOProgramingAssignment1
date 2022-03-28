@@ -66,8 +66,8 @@ namespace CMP1903M_Assessment_1_Base_Code
                 {"sentences", s => Regex.Matches(s, @"(\s|^)+[^.!?\*]*([.!?\*]|\S)", RegexOptions.Multiline).Count()},
                 {"vowels", s.ToLower() => Regex.Matches(s, @"[aeiou]", RegexOptions.Multiline).Count()},
                 {"consonants", s.ToLower() => Regex.Matches(s, @"(?![aeiou])[a-z]").Count()},
-                {"upper", s => Regex.Matches(s, @"[A-Z]", RegexOptions.Multiline).Count()},
-                {"lower", s => Regex.Matches(s, @"[a-z]", RegexOptions.Multiline).Count()}
+                {"upper", s => Regex.Matches(s, @"\p{Lu}").Count()},
+                {"lower", s => Regex.Matches(s, @"\p{Ll}").Count()}
             };
             
             // Return a dictionary. Use Linq to create a dictionary with elements as keys and returned values from
