@@ -12,11 +12,9 @@ namespace CMP1903M_Assessment_1_Base_Code
     public class Report
     {
         private Analyse _data;
-        private int _padding;
-        public Report(in Analyse data, int padding=2)
+        public Report(in Analyse data)
         {
             _data = data;
-            _padding = padding;
         }
         /// <summary>
         /// Outputs a table to the console
@@ -24,43 +22,9 @@ namespace CMP1903M_Assessment_1_Base_Code
         public void outputConsole()
         {
             Console.WriteLine("Text elements");
-            Console.WriteLine(generateTable(_data.Elements));
+            Console.WriteLine(new Table("| {0} ", _data.Elements, 2).GetTable());
             Console.WriteLine("\nCharacter frequency");
-            Console.WriteLine(generateTable(_data.Characters));
-        }
-
-        /// <summary>
-        /// Generates a table for given data
-        /// </summary>
-        /// <param name="data">Dictionary of data for table</param>
-        /// <returns>string: Formatted table</returns>
-        private string generateTable(Dictionary<string, int> data)
-        { 
-            int maxLen = 0;
-            // Calculate max length of key present in table
-            foreach (var key in data.Keys)
-            {
-                if (maxLen < key.Length)
-                {
-                    maxLen = key.Length;
-                }
-            }
-            // Format of column
-            string colFormatString = "| {0} ";
-            // Calculate length of table line and repeat '-' for that length
-            string bar = new string('-', (colFormatString.Replace("{0}", "").Length + maxLen + _padding) * 2) + '\n';
-            string table = bar; // Top horizontal line
-            
-            // Loop over key value pairs in data and generate rows
-            foreach (var row in data)
-            {
-                table += new DataTableRow(colFormatString, new[] {row.Key, row.Value.ToString()})
-                    .GetRow(maxLen, _padding);
-            }
-
-            table += bar; // Bottom horizontal line
-
-            return table;
+            Console.WriteLine(new Table("| {0} ", _data.Characters, 2).GetTable());
         }
     }
 }
@@ -68,28 +32,62 @@ namespace CMP1903M_Assessment_1_Base_Code
 /// <summary>
 /// Utility class used to generate table rows, example of abstraction
 /// </summary>
-public class DataTableRow
+public class Table
 {
     private readonly string _formatString;
-    private readonly string[] _values;
-    public DataTableRow(string formatString, string[] values)
+    private readonly Dictionary<string, int> _data;
+    private readonly int _padding;
+    public Table(string columnFormat, Dictionary<string, int> data, int padding)
     {
-        _formatString = formatString;
-        _values = values;
+        _formatString = columnFormat;
+        _data = data;
+        _padding = padding;
+        
+    }
+
+    /// <summary>
+    /// Generates a table for given data
+    /// </summary>
+    /// <returns>string: Formatted table</returns>
+    public string GetTable()
+    {
+        int maxLen = 0;
+        // Calculate max length of key present in table
+        foreach (var key in _data.Keys)
+        {
+            if (maxLen < key.Length)
+            {
+                maxLen = key.Length;
+            }
+        }
+        // Calculate length of table line and repeat '-' for that length
+        string bar = new string('-', (_formatString.Replace("{0}", "").Length + maxLen + _padding) * 2) + '\n';
+        string table = bar; // Top horizontal line
+            
+        // Loop over key value pairs in data and generate rows
+        foreach (var row in _data)
+        {
+            table += GetRow(new[] {row.Key, row.Value.ToString()}, maxLen);
+        }
+
+        table += bar; // Bottom horizontal line
+
+        return table;
     }
 
     /// <summary>
     /// Generates a formatted table row for given data
     /// </summary>
+    /// <param name="rowValues">Values to create table row with</param>
     /// <param name="maxLen">Max length of table column</param>
     /// <param name="padding">Padding to add to end of columns</param>
     /// <returns>string: Formatted table row</returns>
-    public string GetRow(int maxLen, int padding)
+    private string GetRow(string[] rowValues, int maxLen)
     {
         string row = string.Empty;
-        foreach (var value in _values)
+        foreach (var value in rowValues)
         {
-            row += string.Format(_formatString + new string(' ', (maxLen + padding) - value.Length), value);
+            row += string.Format(_formatString + new string(' ', (maxLen + _padding) - value.Length), value);
         }
 
         return row + "|\n";
