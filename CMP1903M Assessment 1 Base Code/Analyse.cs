@@ -64,8 +64,8 @@ namespace CMP1903M_Assessment_1_Base_Code
             var tools = new Dictionary<string, Func<string, int>>()
             {
                 {"sentences", s => Regex.Matches(s, @"(\s|^)+[^.!?\*]*([.!?\*]|\S)", RegexOptions.Multiline).Count()},
-                {"vowels", s.ToLower() => Regex.Matches(s, @"[aeiou]", RegexOptions.Multiline).Count()},
-                {"consonants", s.ToLower() => Regex.Matches(s, @"(?![aeiou])[a-z]").Count()},
+                {"vowels", s => Regex.Matches(s.ToLower(), @"[aeiou]", RegexOptions.Multiline).Count()},
+                {"consonants", s => Regex.Matches(s.ToLower(), @"(?![aeiou])[a-z]").Count()},
                 {"upper", s => Regex.Matches(s, @"\p{Lu}").Count()},
                 {"lower", s => Regex.Matches(s, @"\p{Ll}").Count()}
             };
