@@ -57,10 +57,7 @@ namespace CMP1903M_Assessment_1_Base_Code
                 try
                 {
                     // Create StreamReader to read file
-                    using (var sr = new StreamReader(fileName))
-                    {
-                        return sr.ReadToEnd().Trim('*');
-                    }
+                    return File.ReadAllLines(fileName).Trim('*');
                 }
                 catch (IOException e)
                 {
