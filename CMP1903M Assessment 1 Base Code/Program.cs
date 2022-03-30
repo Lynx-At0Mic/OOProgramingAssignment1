@@ -8,55 +8,45 @@ using System.Threading.Tasks;
 
 namespace CMP1903M_Assessment_1_Base_Code
 {
+    /// <summary>
+    /// Main program class
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// Entry method
+        /// </summary>
         static void Main()
         {
-            //Local list of integers to hold the first five measurements of the text
-            // List<int> parameters = new List<int>();
-
-            //Create 'Input' object
-            //Get either manually entered text, or text from a file
+            // Initialize IO reader
             Input ioReader = new Input();
-            string testString = "";
-            
+            string analysisText;
+
+            // Loop until exit
             while (true)
             {
-                Console.WriteLine("Options:\n1: Manual input\n2: File input\n3: Exit");
-                string usrInput = Console.ReadLine();
-                if (usrInput == "1")
+                // Get input from user
+                try
                 {
-                    Console.WriteLine("Enter text");
-                    testString = ioReader.manualTextInput();
+                    analysisText = ioReader.GetInput();
                 }
-                else if (usrInput == "2")
+                catch (UserTerminationException) // Catch exception when user exits
                 {
-                    Console.WriteLine("Enter absolute file path");
-                    testString = ioReader.fileTextInput(Console.ReadLine());
+                    return;
                 }
-                else if (usrInput == "3") break;
-                else
-                {
-                    Console.WriteLine("Invalid input!");
-                    continue;
-                }
-                
-                //Create an 'Analyse' object
-                //Pass the text input to the 'analyseText' method
-                //Receive a list of integers back
-                var dict = Analyse.AnalyseText(testString);
 
-                //Report the results of the analysis
-                Console.WriteLine("\n");
-                foreach (var key in dict.Keys)
+                // Initialise analyse object with analysisText
+                var analysis = new Analyse
                 {
-                    Console.WriteLine("{0}:   \t{1}", key, dict[key]);
-                }
+                    AnalysisText = analysisText
+                };
 
                 Console.WriteLine("\n");
                 
-                //TO ADD: Get the frequency of individual letters?
-                
+                // Create report object and output to console
+                var output = new Report(in analysis);
+                output.outputConsole();
+
             }
         }
     }

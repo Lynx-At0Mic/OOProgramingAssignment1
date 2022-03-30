@@ -1,40 +1,103 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CMP1903M_Assessment_1_Base_Code
 {
+    /// <summary>
+    /// Used to accept both manual text input and text from a file
+    /// </summary>
     public class Input
     {
-        //Handles the text input for Assessment 1
-        string text = "";
+
+        public string GetInput()
+        {
+            while (true)
+            {
+                Console.WriteLine("Options:\n1: Manual input\n2: File input\n3: Exit");
+                string usrInput = Console.ReadLine() ?? string.Empty;
+                string analysisText;
+                switch (usrInput)
+                {
+                    case "1": // CLI text entry
+                        analysisText = manualTextInput();
+                        break;
+                    case "2": // Read file
+                        analysisText = fileTextInput();
+                        break;
+                    case "3": // Exit
+                        throw new UserTerminationException("User exited");
+                    default:
+                        Console.WriteLine("Invalid input!");
+                        continue;
+                }
+
+                return analysisText;
+            }
+        }
         
-        //Method: manualTextInput
-        //Arguments: none
-        //Returns: string
-        //Gets text input from the keyboard
+        /// <summary>
+        /// Used to accept text input through the command line
+        /// </summary>
+        /// <returns>string: Text input</returns>
         public string manualTextInput()
         {
-            text = "";
-            this.text = Console.ReadLine();
-            return text;
-        }
-
-        //Method: fileTextInput
-        //Arguments: string (the file path)
-        //Returns: string
-        //Gets text input from a .txt file
-        public string fileTextInput(string fileName)
-        {
-            this.text = "";
-            using (var sr = new StreamReader(fileName))
+            Console.WriteLine("Enter text, use '*' to end text entry");
+            string input = String.Empty;
+            while (true)
             {
-                text = sr.ReadToEnd();
-            }
-            return text;
-        }
+                try
+                {
+                    while (!input.EndsWith('*')) // Loop until user ends entry with '*'
+                    {
+                        input += Console.ReadLine() ?? string.Empty;
+                    }
 
+                    return input.Trim('*'); // Remove '*' and return input
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine("An IO error occured, assuming user entered nothing");
+                }
+                catch (ArgumentOutOfRangeException e)
+                {
+                    Console.WriteLine("Line is too long! Try again");
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Used to get filepath from user and read contents
+        /// </summary>
+        /// <returns>string: File contents</returns>
+        public string fileTextInput()
+        {
+            while (true)
+            {
+                Console.WriteLine("Enter the filepath of the text file:");
+                string fileName = Console.ReadLine() ?? string.Empty;
+
+                try
+                {
+                    // Create StreamReader to read file
+                    return File.ReadAllText(fileName).Trim('*');
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine("Error, could not read the file!");
+                }
+            }
+        }
     }
+}
+
+public class UserTerminationException : Exception
+{
+    public UserTerminationException() { }
+
+    public UserTerminationException(string name)
+    : base("User exited") { }
 }
