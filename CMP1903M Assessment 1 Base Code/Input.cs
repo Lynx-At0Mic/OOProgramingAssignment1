@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace CMP1903M_Assessment_1_Base_Code
 {
     /// <summary>
-    /// Used to accept both manual text input and text from a file
+    /// Used to accept both manual text input and text from a file. Evidence of abstraction
     /// </summary>
     public class Input
     {
@@ -109,6 +109,9 @@ namespace CMP1903M_Assessment_1_Base_Code
     }
 }
 
+/// <summary>
+/// Custom exception used when exiting the program
+/// </summary>
 public class UserTerminationException : Exception
 {
     public UserTerminationException() { }
