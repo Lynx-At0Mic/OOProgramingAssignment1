@@ -25,6 +25,13 @@ namespace CMP1903M_Assessment_1_Base_Code
             Console.WriteLine(new Table("| {0} ", _data.Elements, 2).GetTable());
             Console.WriteLine("\nCharacter frequency");
             Console.WriteLine(new Table("| {0} ", _data.Characters, 2).GetTable());
+            Console.WriteLine("\nLong words (a file containing these was saved to the project directory)");
+            foreach (string word in _data.LongWords)
+            {
+                Console.WriteLine(word);
+            }
+
+            Console.WriteLine("\n");
         }
     }
 }

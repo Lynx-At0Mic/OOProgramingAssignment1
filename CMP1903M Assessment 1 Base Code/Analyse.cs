@@ -37,6 +37,11 @@ namespace CMP1903M_Assessment_1_Base_Code
         public Dictionary<string, int> Characters { get; private set; }
         
         /// <summary>
+        /// Stores words longer than 7 characters
+        /// </summary>
+        public List<string> LongWords { get; private set; }
+
+        /// <summary>
         /// Runs analysis methods, replaces analyseText() from base code
         /// </summary>
         /// <param name="input">Text to analyse</param>
@@ -44,6 +49,7 @@ namespace CMP1903M_Assessment_1_Base_Code
         {
             Elements = CountElements(input);
             Characters = CountChars(input);
+            LongWords = GetLongWords(input);
         }
 
         /// <summary>
@@ -99,8 +105,28 @@ namespace CMP1903M_Assessment_1_Base_Code
                 from i in dict orderby i.Value descending select i;
             return sortedDict.ToDictionary(pair => pair.Key, pair => pair.Value);
         }
+        
+        /// <summary>
+        /// Returns words longer than 7 characters contained in input
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        protected List<string> GetLongWords(string text)
+        {
+            var words = new List<string>();
+            var matches = Regex.Matches(text, @"\w{7,}");
+            foreach (Match match in matches)
+            {
+                if (!words.Contains(match.Value))
+                {
+                    words.Add(match.Value);
+                }
+            }
+
+            return words;
+        }
     }
-    
+
     /// <summary>
     /// Utility class used to analyse text
     /// </summary>
