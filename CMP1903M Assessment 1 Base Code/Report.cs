@@ -25,6 +25,51 @@ namespace CMP1903M_Assessment_1_Base_Code
             Console.WriteLine(new Table("| {0} ", _data.Elements, 2).GetTable());
             Console.WriteLine("\nCharacter frequency");
             Console.WriteLine(new Table("| {0} ", _data.Characters, 2).GetTable());
+            Console.WriteLine("\nLong words (a file containing these was saved to the project directory)");
+            foreach (string word in _data.LongWords)
+            {
+                Console.WriteLine(word);
+            }
+
+            Console.WriteLine("\n");
+            if (!WriteLongWordsFile())
+            {
+                Console.WriteLine("Could not write long words file! Something is wrong!");
+            }
+        }
+
+        /// <summary>
+        /// Creates text file containing long words found in text
+        /// </summary>
+        /// <returns>bool: True if successful</returns>
+        public bool WriteLongWordsFile()
+        {
+            string longWordsFilePath = "./../../../long_words.txt";
+            if (File.Exists(longWordsFilePath)) // Check if file exists
+            {
+                File.Delete(longWordsFilePath);
+            }
+
+            // Write words to file
+            try
+            {
+                using StreamWriter sw = File.CreateText(longWordsFilePath);
+                foreach (string word in _data.LongWords)
+                {
+                    sw.WriteLine(word);
+                }
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                return false;
+            }
+            catch (PathTooLongException e)
+            {
+                return false;
+            }
+
+            return true;
+
         }
     }
 }
