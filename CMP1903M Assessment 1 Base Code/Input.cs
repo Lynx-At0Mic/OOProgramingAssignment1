@@ -77,15 +77,30 @@ namespace CMP1903M_Assessment_1_Base_Code
         {
             while (true)
             {
-                Console.WriteLine("Enter the filepath of the text file:");
+                Console.WriteLine("Enter the full filepath of the text file\n" +
+                                  "Enter nothing to use test file: ");
                 string fileName = Console.ReadLine() ?? string.Empty;
+
+                if (fileName == String.Empty || fileName == null)
+                {
+                    fileName = "./../../../test_file.txt";
+                }
 
                 try
                 {
                     // Create StreamReader to read file
-                    return File.ReadAllText(fileName).Trim('*');
+                    string contents = File.ReadAllText(fileName);
+                    if (contents.IndexOf('*') == -1) // check if a terminator is in the file
+                    {
+                        return contents;
+                    }
+                    return contents.Substring(0, contents.IndexOf('*'));
                 }
                 catch (IOException e)
+                {
+                    Console.WriteLine("Error, could not read the file!");
+                }
+                catch (ArgumentException e)
                 {
                     Console.WriteLine("Error, could not read the file!");
                 }
